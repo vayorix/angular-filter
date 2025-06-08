@@ -1,0 +1,42 @@
+<div class="filter-list-container">
+  <div class="header-section">
+    <h1 class="page-title">Filter List</h1>
+    <button class="btn btn-primary add-new-btn" (click)="addNew()">+ Add New Filter</button>
+  </div>
+
+  <div class="filter-section">
+    <h3 class="filter-title">Search Options</h3>
+    <div class="filter-controls">
+      <input
+        type="text"
+        placeholder="Search by keyword..."
+        class="filter-input"
+        (input)="onSearch($event)"
+      />
+      <!-- <select class="filter-dropdown" (change)="onFilterChange($event)">
+        <option value="">Select Filter</option>
+        <option *ngFor="let filter of availableFilters" [value]="filter">
+          {{ filter }}
+        </option>
+      </select> -->
+      <button class="btn btn-secondary apply-filter-btn" (click)="applyFilter()">Apply Search</button>
+    </div>
+  </div>
+
+  <div class="data-grid-container">
+    <div class="data-grid-wrapper">
+      <ag-grid-angular
+        style="width: 100%; max-height: 400px;overflow-y: auto;height: 400px"
+        class="ag-theme-alpine custom-ag-grid"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        rowSelection="single"
+        [pagination]="true"
+        [paginationPageSize]="20"
+        [domLayout]="'autoHeight'"
+        [defaultColDef]="{ resizable: true }"
+        [animateRows]="true"
+      ></ag-grid-angular>
+    </div>
+  </div>
+</div>

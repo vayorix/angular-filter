@@ -1,0 +1,111 @@
+<!-- <div class="data-grid-container">
+  <h2 class="data-grid-title">Data Grid</h2>
+  <div class="data-grid-wrapper">
+    <ag-grid-angular
+      style="width: 99%; height: 300px"
+      class="ag-theme-alpine custom-ag-grid"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      rowSelection="single"
+      [pagination]="true"
+      [paginationPageSize]="20"
+      [domLayout]="'autoHeight'"
+      [defaultColDef]="{ resizable: true }"
+    ></ag-grid-angular>
+  </div>
+</div>
+
+<div class="query-builder">
+  <div class="filter-header" style="width: 350px;margin-bottom: 30px;">
+    <div class="form-section" style="margin-bottom: 15px;">
+      <label>Filter Name:</label>
+      <input class="input" type="text" [(ngModel)]="filterName" placeholder="Enter filter name" />
+    </div>
+    <div class="form-section">
+      <label>Filter Type:</label>
+      <select class="select" [(ngModel)]="filterType">
+        <option value="Basic">Basic</option>
+        <option value="Advanced">Advanced</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn add-group" (click)="addGroup()">+ Add Group</button>
+  </div>
+
+  <div class="group-box" *ngFor="let group of filters; let i = index">
+    <div class="group-header">
+      <button class="btn btn-remove" (click)="removeGroup(i)">✕ Remove Group {{ i + 1 }}</button>
+      <button class="btn add-item" (click)="addRule(i)">+ Add Item</button>
+    </div>
+
+    <div class="rules">
+      <div class="rule-box" *ngFor="let rule of group.rules; let j = index">
+        <div class="rule-line">
+          <button class="btn btn-remove" (click)="removeRule(i, j)">Remove Item</button>
+
+          <ng-container *ngIf="j > 0">
+            <select class="select condition-inline" [(ngModel)]="rule.condition">
+              <option value="AND">AND</option>
+              <option value="OR">OR</option>
+            </select>
+          </ng-container>
+
+          <div class="form-section">
+            <label>Entity:</label>
+            <select class="select" [(ngModel)]="rule.entity" (change)="onEntityChange(rule)">
+              <option *ngFor="let entity of entities" [value]="entity.name">{{ entity.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-section">
+            <label>Field:</label>
+            <select class="select" [(ngModel)]="rule.field">
+              <option *ngFor="let field of getFields(rule.entity)" [value]="field">{{ field }}</option>
+            </select>
+          </div>
+
+          <ng-container *ngIf="shouldShowConditionAndType(rule.field)">
+            <div class="form-section">
+              <label>Condition:</label>
+              <select class="select" [(ngModel)]="rule.operator">
+                <option *ngFor="let op of operators" [value]="op">{{ op }}</option>
+              </select>
+            </div>
+
+            <div class="form-section">
+              <label>Type:</label>
+              <select class="select" [(ngModel)]="rule.type">
+                <option value="ALL">All</option>
+                <option value="ANY">At Least One</option>
+              </select>
+            </div>
+          </ng-container>
+
+          <div class="form-section">
+            <label>Value:</label>
+            <ng-container [ngSwitch]="getFieldType(rule.field)">
+              <input class="input" *ngSwitchCase="'text'" type="text" [(ngModel)]="rule.value" />
+              <select class="select" *ngSwitchCase="'dropdown'" [(ngModel)]="rule.value">
+                <option *ngFor="let opt of getDropdownOptions(rule.field)" [value]="opt">{{ opt }}</option>
+              </select>
+              <input class="input" *ngSwitchCase="'date'" type="date" [(ngModel)]="rule.value" />
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-section">
+    <button class="btn submit-btn" (click)="submitFilters()">Submit</button>
+  </div>
+
+  <div class="output" *ngIf="submitted">
+    <h3>Submitted Filter Configuration</h3>
+    <pre>{{ filters | json }}</pre>
+  </div>
+</div>  -->
+
+<router-outlet></router-outlet>

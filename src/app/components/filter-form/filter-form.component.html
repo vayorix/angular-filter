@@ -1,0 +1,130 @@
+<div class="query-builder">
+  <div class="filter-header">
+    <h2 class="filter-title">Filter Details</h2>
+    <div class="form-section" style="width: 300px;">
+      <label for="filterName">Filter Name:</label>
+      <input
+        id="filterName"
+        class="input"
+        type="text"
+        [(ngModel)]="filterName"
+        placeholder="Enter filter name"
+      />
+    </div>
+    <div class="form-section" style="width: 322px;">
+      <label for="filterType">Filter Type:</label>
+      <select id="filterType" class="select" [(ngModel)]="filterType">
+      <option value="Basic" selected>Basic</option>
+      <option value="Advanced">Advanced</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary add-group" (click)="addGroup()">+ Add Group</button>
+  </div>
+
+  <div class="group-box" *ngFor="let group of filters; let i = index">
+    <div class="group-header">
+      <h3 class="group-title">Group {{ i + 1 }}</h3>
+      <div class="group-actions">
+        <button class="btn btn-danger btn-remove" (click)="removeGroup(i)">✕ Remove Group</button>
+        <button class="btn btn-secondary add-item" (click)="addRule(i)">+ Add Item</button>
+      </div>
+    </div>
+
+    <div class="rules">
+      <div class="rule-box" *ngFor="let rule of group.rules; let j = index">
+        <div class="rule-line">
+          <button class="btn btn-danger btn-remove" (click)="removeRule(i, j)" style="    margin-top: 25px;">✕ Remove Item</button>
+
+          <ng-container *ngIf="j > 0">
+            <select class="select condition-inline" [(ngModel)]="rule.condition" style="
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;margin-top: 25px;">
+              <option value="AND">AND</option>
+              <option value="OR">OR</option>
+            </select>
+          </ng-container>
+
+          <div class="form-section">
+            <label for="entity">Entity:</label>
+            <select
+              id="entity"
+              class="select"
+              [(ngModel)]="rule.entity"
+              (change)="onEntityChange(rule)"
+            >
+              <option *ngFor="let entity of entities" [value]="entity.name">{{ entity.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-section">
+            <label for="field">Field:</label>
+            <select id="field" class="select" [(ngModel)]="rule.field">
+              <option *ngFor="let field of getFields(rule.entity)" [value]="field">{{ field }}</option>
+            </select>
+          </div>
+
+          <ng-container *ngIf="shouldShowConditionAndType(rule.field)">
+            <div class="form-section">
+              <label for="condition">Condition:</label>
+              <select id="condition" class="select" [(ngModel)]="rule.operator">
+                <option *ngFor="let op of operators" [value]="op">{{ op }}</option>
+              </select>
+            </div>
+
+            <div class="form-section">
+              <label for="type">Type:</label>
+              <select id="type" class="select" [(ngModel)]="rule.type">
+                <option value="ALL">All</option>
+                <option value="ANY">At Least One</option>
+              </select>
+            </div>
+          </ng-container>
+
+          <div class="form-section">
+            <label for="value">Value:</label>
+            <ng-container [ngSwitch]="getFieldType(rule.field)">
+              <input
+                id="value"
+                class="input"
+                *ngSwitchCase="'text'"
+                type="text"
+                [(ngModel)]="rule.value"
+              />
+              <select
+                id="value"
+                class="select"
+                *ngSwitchCase="'dropdown'"
+                [(ngModel)]="rule.value"
+              >
+                <option *ngFor="let opt of getDropdownOptions(rule.field)" [value]="opt">
+                  {{ opt }}
+                </option>
+              </select>
+              <input
+                id="value"
+                class="input"
+                *ngSwitchCase="'date'"
+                type="date"
+                [(ngModel)]="rule.value"
+              />
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-section">
+    <button class="btn btn-success submit-btn" (click)="submitFilters()">Submit</button>
+    <button class="btn btn-secondary cancel-btn" (click)="onCancel()">Cancel</button>
+  </div>
+
+  <div class="output" *ngIf="submitted">
+    <h3>Submitted Filter Configuration</h3>
+    <pre>{{ filters | json }}</pre>
+  </div>
+</div>
